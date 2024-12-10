@@ -11,7 +11,7 @@ MEDIA_ROOT = BASE_DIR / 'media'  # Directory where media files are stored locall
 SECRET_KEY = 'django-insecure--(tlk4_q%_g1v6mq7^)7w$y(gawdf^9lrq5d5r^cpuqf18xwdb'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False  # Set to False in production
+DEBUG = True  # Set to False in production
 
 ALLOWED_HOSTS = ['instaclone-70sa.onrender.com']  # Add your deployment domain in production
 
