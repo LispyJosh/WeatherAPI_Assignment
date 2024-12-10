@@ -13,7 +13,11 @@ SECRET_KEY = 'django-insecure--(tlk4_q%_g1v6mq7^)7w$y(gawdf^9lrq5d5r^cpuqf18xwdb
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True  # Set to False in production
 
-ALLOWED_HOSTS = ['instaclone-70sa.onrender.com']  # Add your deployment domain in production
+ALLOWED_HOSTS = [
+    'instaclone-70sa.onrender.com',  # Your Render deployment domain
+    'localhost',                     # Local development
+    '127.0.0.1',                     # Local development IP address
+]
 
 # Application definition
 INSTALLED_APPS = [
