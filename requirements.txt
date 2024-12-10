@@ -4,3 +4,4 @@ django-environ==0.10.0
 gunicorn==21.2.0
 psycopg
 whitenoise==6.5.0
+Pillow
