@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Conversation{% endblock %}
+
+{% block content %}
+<h2>Conversation with {{ other_user }}</h2>
+<div class="chat-box">
+    {% for message in messages %}
+        <p><strong>{{ message.sender }}:</strong> {{ message.content }}</p>
+    {% endfor %}
+</div>
+<form method="post" class="mt-3">
+    {% csrf_token %}
+    <textarea name="content" class="form-control" rows="3" placeholder="Type a message..."></textarea>
+    <button type="submit" class="btn btn-primary mt-2">Send</button>
+</form>
+{% endblock %}
