@@ -18,7 +18,7 @@ DEBUG = config('DEBUG', default=True, cast=bool)
 ALLOWED_HOSTS = [
     'localhost',        # Local development
     '127.0.0.1',        # Local development IP address
-    # 'your-render-domain-here.onrender.com'  # ➡️ Add Render details here later if needed
+    'weatherapi-assignment-3.onrender.com/' #render.com
 ]
 
 # 📌 Load API key from .env
