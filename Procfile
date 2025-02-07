@@ -1,1 +1,1 @@
-web: gunicorn insta_clone.wsgi:application
+web: gunicorn Final_Assignment.wsgi:application
