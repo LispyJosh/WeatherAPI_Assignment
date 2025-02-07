@@ -1,7 +1,13 @@
 asgiref==3.7.2
-Django==4.2.5
+Django>=4.2,<5.0
 django-environ==0.10.0
 gunicorn==21.2.0
-psycopg
+psycopg>=3.2.4  # Modern PostgreSQL driver
 whitenoise==6.5.0
-Pillow
+Pillow>=9.0  # Image processing (profile pics, post images)
+python-decouple==3.1  # For managing environment variables in settings
+django-bootstrap5>=23.3  # Bootstrap integration for Django forms
+django-storages>=1.13  # Cloud storage support
+django-requests>=0.0.2  
+python-dotenv>=1.0.1 
+requests>=2.32.3  # Explicitly adding since it is installed

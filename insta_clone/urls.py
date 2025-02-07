@@ -5,8 +5,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('social.urls')),  # Include the URLs from the social app
-    
+    path('', include('social.urls')),  # Social app URLs
+    path('weather/', include('weather_app.urls')),  # Weather app URLs
 ]
 
 # Serve media files during development

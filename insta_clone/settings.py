@@ -1,25 +1,30 @@
 from pathlib import Path
+from decouple import config
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# 📌 Build paths inside the project
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Media Files Configuration
+# 📌 Media Files Configuration (For Image Uploads)
 MEDIA_URL = '/media/'  # URL path for accessing uploaded media files
 MEDIA_ROOT = BASE_DIR / 'media'  # Directory where media files are stored locally
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure--(tlk4_q%_g1v6mq7^)7w$y(gawdf^9lrq5d5r^cpuqf18xwdb'
+# 📌 SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = config('SECRET_KEY', default='django-insecure--(tlk4_q%_g1v6mq7^)7w$y(gawdf^9lrq5d5r^cpuqf18xwdb')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True  # Set to False in production
+# 📌 SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = config('DEBUG', default=True, cast=bool)
 
+# 📌 Allowed hosts for deployment
 ALLOWED_HOSTS = [
-    'instaclone-70sa.onrender.com',  # Your Render deployment domain
-    'localhost',                     # Local development
-    '127.0.0.1',                     # Local development IP address
+    'localhost',        # Local development
+    '127.0.0.1',        # Local development IP address
+    # 'your-render-domain-here.onrender.com'  # ➡️ Add Render details here later if needed
 ]
 
-# Application definition
+# 📌 Load API key from .env
+API_KEY = config('API_KEY', default='')
+
+# 📌 Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -27,7 +32,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'social',  # Custom app
+    'social',        # Insta Clone app
+    'weather_app',   # Weather API app
 ]
 
 MIDDLEWARE = [
@@ -60,74 +66,62 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'insta_clone.wsgi.application'
 
-# Database configuration
+# 📌 DATABASE CONFIGURATION - Currently using SQLite (Change if needed)
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / "db.sqlite3",
+    }
+}
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'django_project_db_hf2w',
-        'USER': 'josh',
-        'PASSWORD': 'k4BPrIyj4FWtNFh3t1GQduXmUmaRS1RM',
-        'HOST': 'oregon-postgres.render.com',
-        'PORT': '5432',
+        'NAME': 'weather_app_api',  # Database name
+        'USER': 'weather_app_api_user',  # Username
+        'PASSWORD': 'KEuTrgaz6l4zXRa6SVhAJsrFqtwkeTsW',  # Password
+        'HOST': 'dpg-cufvlu2j1k6c73fvdq8g-a.oregon-postgres.render.com',  # Hostname
+        'PORT': '5432',  # Default PostgreSQL port
     }
 }
 
 
-# Password validation
+# 📌 Password validation settings
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-# Internationalization
+# 📌 Internationalization settings
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_TZ = True
 
-# Static files settings
-STATIC_URL = '/static/'  # URL for static files
+# 📌 Static files settings (For CSS, JS, Images)
+STATIC_URL = '/static/'  
+STATICFILES_DIRS = [BASE_DIR / "static"]  
+STATIC_ROOT = BASE_DIR / 'staticfiles'  
 
-# Add STATICFILES_DIRS for development mode
-STATICFILES_DIRS = [BASE_DIR / "static"]  # Directory for development
-
-# STATIC_ROOT for production (when running collectstatic)
-STATIC_ROOT = BASE_DIR / 'staticfiles'  # Collect static files here for deployment
-
-# Media files (uploads)
+# 📌 Media files (For uploaded content)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# Redirect after logout
-LOGOUT_REDIRECT_URL = '/'
+# 📌 Login & Logout redirects
+LOGIN_URL = '/login/'  # URL pattern for your login page for people who are not logged in
+LOGIN_REDIRECT_URL = '/weather/'  # Redirect logged-in users here for people who have already logged in
+ 
 
-LOGIN_REDIRECT_URL = '/'  # Redirects to the home page after successful login
-
-# Email settings
+# 📌 Email settings (For Forgot Email, Password Reset)
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'  # Use your email provider's SMTP server
+EMAIL_HOST = 'smtp.gmail.com'  
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'jcroly1998@gmail.com'  # Replace with your email address
-EMAIL_HOST_PASSWORD = 'lpce tzdf amis qptg'  # email's app-specific password (Insta)
-DEFAULT_FROM_EMAIL = 'jcroly1998@gmail.com'  # Default 'from' address for sending emails
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='jcroly1998@gmail.com')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='jgej ehvm wwhd exbk')  
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-
-# Default primary key field type
+# 📌 Default primary key type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-

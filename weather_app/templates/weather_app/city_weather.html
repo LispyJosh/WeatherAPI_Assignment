@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Weather Forecast{% endblock %}
+
+{% block content %}
+<div class="container text-center mt-4">
+    {% if weather_data %}
+        <h1>{{ weather_data.city }}</h1>
+        <h2>{{ weather_data.temperature }}°C</h2>
+        <p>{{ weather_data.description }}</p>
+        <img src="http://openweathermap.org/img/wn/{{ weather_data.icon }}@2x.png" 
+             alt="{{ weather_data.description }}">
+    {% else %}
+        <p class="text-danger">No weather data available. Please try another city.</p>
+    {% endif %}
+
+    <!-- For daily forecasts -->
+    {% if daily_forecasts %}
+        <h2 class="mt-4">5-Day Forecast</h2>
+        <div class="forecast-container d-flex flex-wrap justify-content-center">
+            {% for forecast in daily_forecasts %}
+                <div class="forecast p-3 m-2 border rounded">
+                    <h3>{{ forecast.day }}</h3>
+                    <p>{{ forecast.min_temp }}°C - {{ forecast.max_temp }}°C</p>
+                    <p>{{ forecast.description }}</p>
+                    <img src="http://openweathermap.org/img/wn/{{ forecast.icon }}@2x.png" 
+                         alt="{{ forecast.description }}">
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-danger">No forecast data available. Please try another city.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Weather Wise{% endblock %}
+
+{% block content %}
+<div class="container">
+
+    <!-- Form to input two cities for weather comparison -->
+    <form method="post" class="text-center">
+        {% csrf_token %}
+        <input type="text" name="city1" placeholder="City 1" required>
+        <input type="text" name="city2" placeholder="City 2" required>
+        <button type="submit" class="btn btn-primary">Compare Weather</button>
+    </form>
+
+    <div class="comparison-container mt-4">
+        {% if request.method == "POST" %}  {# Only show results/errors after form submission #}
+
+            <!-- Weather details for the first city -->
+            {% if weather_data1 %}
+                <div class="city-container">
+                    <h2>{{ weather_data1.city }}</h2>
+                    <p>Temperature: {{ weather_data1.temperature }}°C</p>
+                    <p>Description: {{ weather_data1.description }}</p>
+                    <img src="http://openweathermap.org/img/wn/{{ weather_data1.icon }}@2x.png" alt="Weather Icon">
+
+                    <h3>Hourly Forecast</h3>
+                    {% for forecast in hourly_forecasts1 %}
+                        <div class="forecast-item">
+                            <p>Time: {{ forecast.time }}</p>
+                            <p>Temperature: {{ forecast.temp }}°C</p>
+                            <p>Description: {{ forecast.description }}</p>
+                            <img src="http://openweathermap.org/img/wn/{{ forecast.icon }}@2x.png" alt="Forecast Icon">
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="error-message text-danger text-center">No data for City 1. Please try again.</p>
+            {% endif %}
+
+            <!-- Weather details for the second city -->
+            {% if weather_data2 %}
+                <div class="city-container">
+                    <h2>{{ weather_data2.city }}</h2>
+                    <p>Temperature: {{ weather_data2.temperature }}°C</p>
+                    <p>Description: {{ weather_data2.description }}</p>
+                    <img src="http://openweathermap.org/img/wn/{{ weather_data2.icon }}@2x.png" alt="Weather Icon">
+
+                    <h3>Hourly Forecast</h3>
+                    {% for forecast in hourly_forecasts2 %}
+                        <div class="forecast-item">
+                            <p>Time: {{ forecast.time }}</p>
+                            <p>Temperature: {{ forecast.temp }}°C</p>
+                            <p>Description: {{ forecast.description }}</p>
+                            <img src="http://openweathermap.org/img/wn/{{ forecast.icon }}@2x.png" alt="Forecast Icon">
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="error-message text-danger text-center">No data for City 2. Please try again.</p>
+            {% endif %}
+
+        {% endif %} {# End of form submission check #}
+    </div>
+</div>
+{% endblock %}

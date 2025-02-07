@@ -1,3 +1,4 @@
+from django.shortcuts import redirect
 from django.urls import path
 from django.contrib.auth.views import (
     LogoutView, 
@@ -9,48 +10,44 @@ from django.contrib.auth.views import (
 )
 from . import views
 
+# Custom home view to handle redirection
+def home_redirect(request):
+    if request.user.is_authenticated:
+        return redirect('index')  # Redirect to weather app homepage
+    return redirect('login')  # Redirect to login page if not logged in
+
 urlpatterns = [
-    # Home page displaying posts
-    path('', views.home, name='home'),
-    path('home/', views.home, name='home'),
-    path('post/new/', views.new_post, name='new_post'),
-    path('post/<int:post_id>/', views.post_detail, name='post_detail'),
+    # Root URL -> Redirects based on authentication status
+    path('', home_redirect, name='home'),
 
-    # Edit profile must come before profile/<str:username> to avoid conflicts
-    path('profile/edit/', views.edit_account, name='edit_account'),
+    # Profile-related views
+    path('profile/edit/', views.edit_account, name='edit_account'),  
+    path('profile/<str:username>/', views.profile, name='profile'),  
+    path('profile/', views.default_profile, name='default_profile'),  
 
-    # Profile page for a specific user
-    path('profile/<str:username>/', views.profile, name='profile'),
-
-    # Default profile view if no username is provided
-    path('profile/', views.default_profile, name='default_profile'),
-
-    # User's message inbox
-    path('messages/', views.message_list, name='message_list'),
-    path('messages/new/', views.new_message, name='new_message'),
-    path('messages/<str:username>/', views.conversation, name='conversation'),
-    path('base/', views.base, name='base'),
-
-    # Login and logout routes
-    path('login/', LoginView.as_view(template_name='social/login.html'), name='login'),
+    # Authentication - Login & Logout
+    path('login/', LoginView.as_view(template_name='social/login.html', redirect_authenticated_user=True), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
 
-    # Registration route
+    # Registration - User sign-up
     path('register/', views.register, name='register'),
 
-    # Forgot Email route
+    # Forgot Email - Allows users to retrieve their email
     path('forgot_email/', views.forgot_email, name='forgot_email'),
 
-    # Password reset routes (Django built-in views)
+    # Password reset functionality
     path('password-reset/', PasswordResetView.as_view(
         template_name='social/password_reset.html'
     ), name='password_reset'),
+    
     path('password-reset/done/', PasswordResetDoneView.as_view(
         template_name='social/password_reset_done.html'
     ), name='password_reset_done'),
+    
     path('reset/<uidb64>/<token>/', PasswordResetConfirmView.as_view(
         template_name='social/password_reset_confirm.html'
     ), name='password_reset_confirm'),
+    
     path('reset/done/', PasswordResetCompleteView.as_view(
         template_name='social/password_reset_complete.html'
     ), name='password_reset_complete'),
