@@ -1,1 +1,1 @@
-web: gunicorn Final_Assignment.wsgi:application
+web: gunicorn Final_Assignment.Final_Assignment.wsgi:application
