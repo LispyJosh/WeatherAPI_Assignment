@@ -8,10 +8,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 MEDIA_URL = '/media/'  # URL path for accessing uploaded media files
 MEDIA_ROOT = BASE_DIR / 'media'  # Directory where media files are stored locally
 
-# 📌 SECURITY WARNING: keep the secret key used in production secret!
+
 SECRET_KEY = config('SECRET_KEY', default='django-insecure--(tlk4_q%_g1v6mq7^)7w$y(gawdf^9lrq5d5r^cpuqf18xwdb')
 
-# 📌 SECURITY WARNING: don't run with debug turned on in production!
+
 DEBUG = config('DEBUG', default=True, cast=bool)
 
 # 📌 Allowed hosts for deployment
@@ -67,7 +67,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'insta_clone.wsgi.application'
 
-# 📌 DATABASE CONFIGURATION - Currently using SQLite (Change if needed)
+# 📌 DATABASE CONFIGURATIONS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
